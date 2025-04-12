@@ -11,7 +11,7 @@ import { useState } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { FaExchangeAlt } from "react-icons/fa"
 
-import { type ApiError, type LocationPublic, LocationService } from "@/client"
+import { type ApiError, type LocationPublic, LocationsService } from "@/client"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
 import {
@@ -31,8 +31,10 @@ interface EditLocationProps {
 }
 
 interface LocationUpdateForm {
-  title: string
-  description?: string
+  item_id?: string
+  latitude?: number
+  longitude?: number
+  datetime?: string
 }
 
 const EditLocation = ({ location }: EditLocationProps) => {
@@ -49,7 +51,6 @@ const EditLocation = ({ location }: EditLocationProps) => {
     criteriaMode: "all",
     defaultValues: {
       ...location,
-      description: location.description ?? undefined,
     },
   })
 
@@ -95,31 +96,51 @@ const EditLocation = ({ location }: EditLocationProps) => {
             <Text mb={4}>Update the location details below.</Text>
             <VStack gap={4}>
               <Field
-                required
-                invalid={!!errors.title}
-                errorText={errors.title?.message}
-                label="Title"
+                invalid={!!errors.item_id}
+                errorText={errors.item_id?.message}
+                label="Item Id"
               >
                 <Input
-                  id="title"
-                  {...register("title", {
-                    required: "Title is required",
-                  })}
-                  placeholder="Title"
+                  id="item_id"
+                  {...register("item_id", { required: "Item Id is required." })}
+                  placeholder="Item Id (UUID)"
                   type="text"
                 />
               </Field>
-
               <Field
-                invalid={!!errors.description}
-                errorText={errors.description?.message}
-                label="Description"
+                invalid={!!errors.latitude}
+                errorText={errors.latitude?.message}
+                label="Latitude"
               >
                 <Input
-                  id="description"
-                  {...register("description")}
-                  placeholder="Description"
-                  type="text"
+                  id="latitude"
+                  {...register("latitude", { required: "Latitude is required." })}
+                  placeholder="Latitude"
+                  type="number"
+                />
+              </Field>
+              <Field
+                invalid={!!errors.longitude}
+                errorText={errors.longitude?.message}
+                label="Longitude"
+              >
+                <Input
+                  id="longitude"
+                  {...register("longitude", { required: "Longitude is required." })}
+                  placeholder="Longitude"
+                  type="number"
+                />
+              </Field>
+              <Field
+                invalid={!!errors.datetime}
+                errorText={errors.datetime?.message}
+                label="Datetime"
+              >
+                <Input
+                  id="datetime"
+                  {...register("datetime", { required: "Datetime is required." })}
+                  placeholder="Datetime (ISO 8601)"
+                  type="datetime-local"
                 />
               </Field>
             </VStack>

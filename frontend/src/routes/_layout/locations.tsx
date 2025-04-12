@@ -13,6 +13,7 @@ import { FiSearch } from "react-icons/fi"
 import { z } from "zod"
 
 import { LocationsService } from "@/client"
+import { LocationActionsMenu } from "@/components/Common/LocationActionsMenu"
 import AddLocation from "@/components/Locations/AddLocation"
 import PendingLocations from "@/components/Pending/PendingLocations"
 import {
@@ -112,10 +113,7 @@ function LocationsTable() {
                 {new Date(location.datetime).toLocaleString()}
               </Table.Cell>
               <Table.Cell>
-                {/* Here you can add actions like edit or delete, similar to <ItemActionsMenu /> */}
-                <Text fontSize="sm" color="gray.500">
-                  N/A
-                </Text>
+                <LocationActionsMenu location={location} />
               </Table.Cell>
             </Table.Row>
           ))}
