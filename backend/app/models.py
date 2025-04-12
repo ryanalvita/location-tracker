@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 
 from pydantic import EmailStr
 from sqlmodel import Field, Relationship, SQLModel
@@ -79,6 +80,7 @@ class Item(ItemBase, table=True):
         foreign_key="user.id", nullable=False, ondelete="CASCADE"
     )
     owner: User | None = Relationship(back_populates="items")
+    locations: list["Location"] = Relationship(back_populates="item", cascade_delete=True)
 
 
 # Properties to return via API, id is always required
@@ -111,3 +113,33 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=40)
+
+class LocationBase(SQLModel):
+    item_id: uuid.UUID = Field(foreign_key="item.id", nullable=False)
+    latitude: float
+    longitude: float
+    datetime: datetime
+
+# Properties to receive via API on creation
+class LocationCreate(LocationBase):
+    pass
+
+class LocationUpdate(LocationBase):
+    pass
+
+class Location(LocationBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    item_id: uuid.UUID = Field(
+        foreign_key="item.id", nullable=False, ondelete="CASCADE"
+    )
+    item: Item | None = Relationship(back_populates="locations")
+
+# Properties to return via API, id is always required
+class LocationPublic(LocationBase):
+    id: uuid.UUID
+    item_id: uuid.UUID
+
+
+class LocationsPublic(SQLModel):
+    data: list[LocationPublic]
+    count: int
