@@ -70,29 +70,31 @@ export const HTTPValidationErrorSchema = {
 } as const
 
 export const LocationCreateSchema = {
-    properties: {
-        item_id: {
-            type: "string",
-            format: "uuid",
-            title: "Item Id",
-        },
-        latitude: {
-            type: "number",
-            title: "Latitude",
-        },
-        longitude: {
-            type: "number",
-            title: "Longitude",
-        },
-        datetime: {
-            type: "string",
-            format: "date-time",
-            title: "Datetime",
-        },
+  properties: {
+    item_id: {
+      type: "string",
+      format: "uuid",
+      title: "Item Id",
     },
-    type: "object",
-    required: ["item_id", "latitude", "longitude", "datetime"],
-    title: "LocationCreate",
+    latitude: {
+      type: "number",
+      format: "float",
+      title: "Latitude",
+    },
+    longitude: {
+      type: "number",
+      format: "float",
+      title: "Longitude",
+    },
+    datetime: {
+      type: "string",
+      format: "date-time",
+      title: "Datetime",
+    },
+  },
+  type: "object",
+  required: ["item_id", "latitude", "longitude", "datetime"],
+  title: "LocationCreate",
 } as const;
 
 export const LocationPublicSchema = {
@@ -109,10 +111,12 @@ export const LocationPublicSchema = {
         },
         latitude: {
             type: "number",
+            format: "float",
             title: "Latitude",
         },
         longitude: {
             type: "number",
+            format: "float",
             title: "Longitude",
         },
         datetime: {
@@ -135,10 +139,12 @@ export const LocationUpdateSchema = {
         },
         latitude: {
             type: "number",
+            format: "float",
             title: "Latitude",
         },
         longitude: {
             type: "number",
+            format: "float",
             title: "Longitude",
         },
         datetime: {

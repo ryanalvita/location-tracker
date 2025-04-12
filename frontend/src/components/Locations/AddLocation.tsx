@@ -109,6 +109,7 @@ const AddLocation = () => {
                   {...register("latitude", { required: "Latitude is required." })}
                   placeholder="Latitude"
                   type="number"
+                  step="any"
                 />
               </Field>
               <Field
@@ -122,6 +123,7 @@ const AddLocation = () => {
                   {...register("longitude", { required: "Longitude is required." })}
                   placeholder="Longitude"
                   type="number"
+                  step="any"
                 />
               </Field>
               <Field

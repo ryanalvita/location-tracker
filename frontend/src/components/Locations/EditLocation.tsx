@@ -117,6 +117,7 @@ const EditLocation = ({ location }: EditLocationProps) => {
                   {...register("latitude", { required: "Latitude is required." })}
                   placeholder="Latitude"
                   type="number"
+                  step="any"
                 />
               </Field>
               <Field
@@ -129,6 +130,7 @@ const EditLocation = ({ location }: EditLocationProps) => {
                   {...register("longitude", { required: "Longitude is required." })}
                   placeholder="Longitude"
                   type="number"
+                  step="any"
                 />
               </Field>
               <Field
