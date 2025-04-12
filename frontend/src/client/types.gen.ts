@@ -13,6 +13,34 @@ export type HTTPValidationError = {
   detail?: Array<ValidationError>
 }
 
+export type LocationCreate = {
+  item_id: string
+  latitude: number
+  longitude: number
+  datetime: string
+}
+
+export type LocationPublic = {
+  item_id: string
+  latitude: number
+  longitude: number
+  datetime: string
+  id: string
+  owner_id: string
+}
+
+export type LocationsPublic = {
+  data: Array<LocationPublic>
+  count: number
+}
+
+export type LocationUpdate = {
+  item_id?: string
+  latitude?: number
+  longitude?: number
+  datetime?: string
+}
+
 export type ItemCreate = {
   title: string
   description?: string | null
@@ -131,6 +159,38 @@ export type ItemsDeleteItemData = {
 }
 
 export type ItemsDeleteItemResponse = Message
+
+export type LocationsReadLocationsData = {
+  limit?: number
+  skip?: number
+}
+
+export type LocationsReadLocationsResponse = LocationsPublic
+
+export type LocationsCreateLocationData = {
+  requestBody: LocationCreate
+}
+
+export type LocationsCreateLocationResponse = LocationPublic
+
+export type LocationsReadLocationData = {
+  id: string
+}
+
+export type LocationsReadLocationResponse = LocationPublic
+
+export type LocationsUpdateLocationData = {
+  id: string
+  requestBody: LocationUpdate
+}
+
+export type LocationsUpdateLocationResponse = LocationPublic
+
+export type LocationsDeleteLocationData = {
+  id: string
+}
+
+export type LocationsDeleteLocationResponse = Message
 
 export type LoginLoginAccessTokenData = {
   formData: Body_login_login_access_token

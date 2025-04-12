@@ -14,6 +14,16 @@ import type {
   ItemsUpdateItemResponse,
   ItemsDeleteItemData,
   ItemsDeleteItemResponse,
+  LocationsReadLocationsData,
+  LocationsReadLocationsResponse,
+  LocationsCreateLocationData,
+  LocationsCreateLocationResponse,
+  LocationsReadLocationData,
+  LocationsReadLocationResponse,
+  LocationsUpdateLocationData,
+  LocationsUpdateLocationResponse,
+  LocationsDeleteLocationData,
+  LocationsDeleteLocationResponse,
   LoginLoginAccessTokenData,
   LoginLoginAccessTokenResponse,
   LoginTestTokenResponse,
@@ -45,6 +55,127 @@ import type {
   UtilsTestEmailResponse,
   UtilsHealthCheckResponse,
 } from "./types.gen"
+
+export class LocationsService {
+  /**
+   * Read Locations
+   * Retrieve locations.
+   * @param data The data for the request.
+   * @param data.skip
+   * @param data.limit
+   * @returns LocationsPublic Successful Response
+   * @throws ApiError
+   */
+  public static readLocations(
+    data: LocationsReadLocationsData = {},
+  ): CancelablePromise<LocationsReadLocationsResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/locations/",
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Create Location
+   * Create a new location.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns LocationPublic Successful Response
+   * @throws ApiError
+   */
+  public static createLocation(
+    data: LocationsCreateLocationData,
+  ): CancelablePromise<LocationsCreateLocationResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/locations/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Location
+   * Retrieve a location by its ID.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns LocationPublic Successful Response
+   * @throws ApiError
+   */
+  public static readLocation(
+    data: LocationsReadLocationData,
+  ): CancelablePromise<LocationsReadLocationResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/locations/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Location
+   * Update an existing location.
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.requestBody
+   * @returns LocationPublic Successful Response
+   * @throws ApiError
+   */
+  public static updateLocation(
+    data: LocationsUpdateLocationData,
+  ): CancelablePromise<LocationsUpdateLocationResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/locations/{id}",
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Delete Location
+   * Delete a location.
+   * @param data The data for the request.
+   * @param data.id
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static deleteLocation(
+    data: LocationsDeleteLocationData,
+  ): CancelablePromise<LocationsDeleteLocationResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/locations/{id}",
+      path: {
+        id: data.id,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
 
 export class ItemsService {
   /**

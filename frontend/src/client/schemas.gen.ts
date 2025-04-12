@@ -69,6 +69,107 @@ export const HTTPValidationErrorSchema = {
   title: "HTTPValidationError",
 } as const
 
+export const LocationCreateSchema = {
+    properties: {
+        item_id: {
+            type: "string",
+            format: "uuid",
+            title: "Item Id",
+        },
+        latitude: {
+            type: "number",
+            title: "Latitude",
+        },
+        longitude: {
+            type: "number",
+            title: "Longitude",
+        },
+        datetime: {
+            type: "string",
+            format: "date-time",
+            title: "Datetime",
+        },
+    },
+    type: "object",
+    required: ["item_id", "latitude", "longitude", "datetime"],
+    title: "LocationCreate",
+} as const;
+
+export const LocationPublicSchema = {
+    properties: {
+        id: {
+            type: "string",
+            format: "uuid",
+            title: "Id",
+        },
+        item_id: {
+            type: "string",
+            format: "uuid",
+            title: "Item Id",
+        },
+        latitude: {
+            type: "number",
+            title: "Latitude",
+        },
+        longitude: {
+            type: "number",
+            title: "Longitude",
+        },
+        datetime: {
+            type: "string",
+            format: "date-time",
+            title: "Datetime",
+        },
+    },
+    type: "object",
+    required: ["id", "item_id", "latitude", "longitude", "datetime"],
+    title: "LocationPublic",
+} as const;
+
+export const LocationUpdateSchema = {
+    properties: {
+        item_id: {
+            type: "string",
+            format: "uuid",
+            title: "Item Id",
+        },
+        latitude: {
+            type: "number",
+            title: "Latitude",
+        },
+        longitude: {
+            type: "number",
+            title: "Longitude",
+        },
+        datetime: {
+            type: "string",
+            format: "date-time",
+            title: "Datetime",
+        },
+    },
+    type: "object",
+    title: "LocationUpdate",
+} as const;
+
+export const LocationsPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                $ref: "#/components/schemas/LocationPublic",
+            },
+            type: "array",
+            title: "Data",
+        },
+        count: {
+            type: "integer",
+            title: "Count",
+        },
+    },
+    type: "object",
+    required: ["data", "count"],
+    title: "LocationsPublic",
+} as const;
+
 export const ItemCreateSchema = {
   properties: {
     title: {
