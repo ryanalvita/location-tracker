@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import {
   Button,
@@ -7,11 +7,12 @@ import {
   Input,
   Text,
   VStack,
+  NativeSelect,
 } from "@chakra-ui/react"
 import { useState } from "react"
 import { FaPlus } from "react-icons/fa"
 
-import { type LocationCreate, LocationsService } from "@/client"
+import { type LocationCreate, LocationsService, ItemsService } from "@/client"
 import type { ApiError } from "@/client/core/ApiError"
 import useCustomToast from "@/hooks/useCustomToast"
 import { handleError } from "@/utils"
@@ -30,8 +31,15 @@ const AddLocation = () => {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast } = useCustomToast()
+  const { data: itemsResponse, isLoading, error } = useQuery({
+    queryKey: ["items"],
+    queryFn: () => ItemsService.readItems(),
+  })
+  const items = itemsResponse?.data || []
+  console.log(items)
   const {
     register,
+    control,
     handleSubmit,
     reset,
     formState: { errors, isValid, isSubmitting },
@@ -91,12 +99,22 @@ const AddLocation = () => {
                 errorText={errors.item_id?.message}
                 label="Item Id"
               >
-                <Input
-                  id="item_id"
-                  {...register("item_id", { required: "Item Id is required." })}
-                  placeholder="Item Id (UUID)"
-                  type="text"
-                />
+                <NativeSelect.Root size="sm">
+                  <NativeSelect.Field placeholder="Select an item" {...register("item_id", { required: "Item Id is required." })}>
+                    {isLoading ? (
+                      <option>Loading...</option>
+                    ) : error ? (
+                      <option>Error loading items</option>
+                    ) : (
+                      items.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.title}
+                        </option>
+                      ))
+                    )}
+                  </NativeSelect.Field>
+                  <NativeSelect.Indicator />
+                </NativeSelect.Root>
               </Field>
               <Field
                 required
