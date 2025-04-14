@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 
 from pydantic import EmailStr
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Field, Relationship, SQLModel, UniqueConstraint
 
 
 # Shared properties
@@ -119,6 +119,10 @@ class NewPassword(SQLModel):
 
 
 class LocationBase(SQLModel):
+    __table_args__ = (
+        UniqueConstraint("item_id", "datetime", name="unique_item_id_datetime"),
+    )
+
     item_id: uuid.UUID = Field(foreign_key="item.id", nullable=False)
     latitude: float
     longitude: float
