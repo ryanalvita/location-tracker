@@ -15,7 +15,6 @@ function ItemTable() {
     queryKey: ["items", itemId],
     queryFn: () => ItemsService.readItem({ id: itemId }),
   })
-  console.log(data)
 
   if (isLoading) {
     return (

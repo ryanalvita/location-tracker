@@ -36,7 +36,6 @@ const AddLocation = () => {
     queryFn: () => ItemsService.readItems(),
   })
   const items = itemsResponse?.data || []
-  console.log(items)
   const {
     register,
     control,
