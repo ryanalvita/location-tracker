@@ -69,7 +69,6 @@ function ItemLocation({ data }: { data: ItemPublic }) {
 
   // Prepare a path for the AntPath polyline.
   const path = positions
-  console.log(path, 'path')
 
   const AntPath = (p: { positions: any; options: any; }) => {
     const context = useLeafletContext()
@@ -144,7 +143,6 @@ function ItemPage() {
     queryKey: ["items", itemId],
     queryFn: () => ItemsService.readItem({ id: itemId }),
   })
-  console.log(data)
 
   if (isLoading) {
     return (
