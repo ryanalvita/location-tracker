@@ -10,6 +10,7 @@ import { sortBy } from 'lodash'
 
 import type { ItemPublic } from "@/client"
 import L from "leaflet";
+import 'leaflet/dist/leaflet.css';
 
 
 export const Route = createFileRoute("/_layout/items/$itemId")({
