@@ -8,13 +8,15 @@ import { antPath } from 'leaflet-ant-path';
 import { useLeafletContext } from '@react-leaflet/core'
 import { sortBy } from 'lodash'
 
+import type { ItemPublic } from "@/client"
+import L from "leaflet";
+
 
 export const Route = createFileRoute("/_layout/items/$itemId")({
   component: ItemPage,
 })
 
-
-function ItemMetadata({ data }) {
+function ItemMetadata({ data }: { data: ItemPublic }) {
   return (
     <>
       <Table.Root size={{ base: "sm", md: "md" }} mt={6}>
@@ -25,9 +27,9 @@ function ItemMetadata({ data }) {
                 {key}
               </Table.Cell>
               <Table.Cell truncate maxW="sm">
-                {typeof data[key] === "object"
-                  ? JSON.stringify(data[key])
-                  : data[key]?.toString() || "N/A"}
+                {typeof (data as Record<string, any>)[key] === "object"
+                  ? JSON.stringify((data as Record<string, any>)[key])
+                  : (data as Record<string, any>)[key]?.toString() || "N/A"}
               </Table.Cell>
             </Table.Row>
           ))}
@@ -37,15 +39,13 @@ function ItemMetadata({ data }) {
   )
 }
 
-function ItemLocation({data}) {
-  function MapBounds({ positions }) {
+function ItemLocation({ data }: { data: ItemPublic }) {
+  function MapBounds({ positions }: { positions: [number, number][] }) {
     const map = useMap()
 
     useEffect(() => {
       if (positions.length > 0) {
-        // Create a bounds object from your positions.
         const bounds = L.latLngBounds(positions)
-        // Fit the map view to the bounds with some padding.
         map.fitBounds(bounds, { padding: [50, 50] })
       }
     }, [positions, map])
@@ -64,13 +64,13 @@ function ItemLocation({data}) {
   }))
 
   // Get an array of positions for the bounds calculation.
-  const positions = locations.map(location => location.position)
+  const positions = locations.map(location => location.position as [number, number])
 
   // Prepare a path for the AntPath polyline.
   const path = positions
   console.log(path, 'path')
 
-  const AntPath = (p) => {
+  const AntPath = (p: { positions: any; options: any; }) => {
     const context = useLeafletContext()
     useEffect(() => {
       let antPolyline = antPath(p.positions, p.options)
@@ -86,8 +86,7 @@ function ItemLocation({data}) {
   return (
     <div style={{ height: '60vh' }}>
       <MapContainer
-        // Provide a default center using the first location or a fallback value.
-        center={positions[0] || [0, 0]}
+        center={positions[0] as [number, number] || [0, 0]}
         zoom={6}
         style={{ height: '100%', width: '100%' }}
       >
@@ -95,20 +94,18 @@ function ItemLocation({data}) {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
         />
 
-        {/* Automatically adjust the map bounds based on the positions */}
         <MapBounds positions={positions} />
 
         {locations.map((location, index) => (
           <Circle
             key={index}
-            center={location.position}
+            center={location.position as [number, number]}
             radius={200}
             color="red"
             fillColor="red"
           />
         ))}
 
-        {/* Draw a polyline to connect the locations */}
         <AntPath positions={path} options={options} />
       </MapContainer>
       
@@ -140,7 +137,7 @@ const tabsConfig = [
 ]
 
 function ItemPage() {
-  const { itemId } = useParams<{ itemId: string }>()
+  const { itemId } = useParams({ from: Route.fullPath })
   
   const { data, isLoading, error } = useQuery({
     queryKey: ["items", itemId],
@@ -178,7 +175,7 @@ function ItemPage() {
         </Tabs.List>
         {tabsConfig.map((tab) => (
           <Tabs.Content key={tab.value} value={tab.value}>
-            <tab.component data={data} />
+            {data && <tab.component data={data} />}
           </Tabs.Content>
         ))}
       </Tabs.Root>
