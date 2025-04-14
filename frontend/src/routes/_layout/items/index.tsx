@@ -7,7 +7,7 @@ import {
   VStack,
 } from "@chakra-ui/react"
 import { useQuery } from "@tanstack/react-query"
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router"
 import { FiSearch } from "react-icons/fi"
 import { z } from "zod"
 
@@ -36,7 +36,7 @@ function getItemsQueryOptions({ page }: { page: number }) {
   }
 }
 
-export const Route = createFileRoute("/_layout/items")({
+export const Route = createFileRoute("/_layout/items/")({
   component: Items,
   validateSearch: (search) => itemsSearchSchema.parse(search),
 })
@@ -95,17 +95,23 @@ function ItemsTable() {
           {items?.map((item) => (
             <Table.Row key={item.id} opacity={isPlaceholderData ? 0.5 : 1}>
               <Table.Cell truncate maxW="sm">
-                {item.id}
+                <Link to={`/items/${item.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                  {item.id}
+                </Link>
               </Table.Cell>
               <Table.Cell truncate maxW="sm">
-                {item.title}
+                <Link to={`/items/${item.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                  {item.title}
+                </Link>
               </Table.Cell>
               <Table.Cell
                 color={!item.description ? "gray" : "inherit"}
                 truncate
                 maxW="30%"
               >
+                <Link to={`/item/${item.id}`} style={{ textDecoration: "none", color: "inherit" }}>
                 {item.description || "N/A"}
+                </Link>
               </Table.Cell>
               <Table.Cell>
                 <ItemActionsMenu item={item} />
