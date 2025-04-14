@@ -51,6 +51,7 @@ export type ItemPublic = {
   description?: string | null
   id: string
   owner_id: string
+  locations?: Array<LocationPublic>
 }
 
 export type ItemsPublic = {
