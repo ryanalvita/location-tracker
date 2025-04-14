@@ -2,10 +2,11 @@ import { Container, Heading, Text, Spinner, Table, Tabs } from "@chakra-ui/react
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, useParams } from "@tanstack/react-router"
 import { ItemsService } from "@/client"
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { MapContainer, TileLayer, Circle, useMap } from 'react-leaflet';
 import { antPath } from 'leaflet-ant-path';
 import { useLeafletContext } from '@react-leaflet/core'
+import { sortBy } from 'lodash'
 
 
 export const Route = createFileRoute("/_layout/items/$itemId")({
@@ -52,8 +53,11 @@ function ItemLocation({data}) {
     return null
   }
   const itemLocations = data.locations || []
+  const sortedLocations = useMemo(() => {
+    return sortBy(itemLocations, location => new Date(location.datetime).getTime())
+  }, [itemLocations])
 
-  const locations = itemLocations.map(location => ({
+  const locations = sortedLocations.map(location => ({
     position: [location.latitude, location.longitude],
     datetime: location.datetime,
     id: location.id,
@@ -117,11 +121,11 @@ function ItemLocation({data}) {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {itemLocations.map((loc) => (
+          {locations.map((loc) => (
             <Table.Row key={loc.id}>
               <Table.Cell>{new Date(loc.datetime).toLocaleString()}</Table.Cell>
-              <Table.Cell>{loc.latitude}</Table.Cell>
-              <Table.Cell>{loc.longitude}</Table.Cell>
+              <Table.Cell>{loc.position[0]}</Table.Cell>
+              <Table.Cell>{loc.position[1]}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
