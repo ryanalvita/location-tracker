@@ -89,7 +89,6 @@ function ItemLocation({ data }: { data: ItemPublic }) {
         center={positions[0] as [number, number] || [0, 0]}
         zoom={6}
         style={{ height: '100%', width: '100%' }}
-        // @ts-ignore - React Leaflet types issue
       >
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
@@ -104,7 +103,6 @@ function ItemLocation({ data }: { data: ItemPublic }) {
             radius={200}
             color="red"
             fillColor="red"
-            // @ts-ignore - React Leaflet types issue
           />
         ))}
 
