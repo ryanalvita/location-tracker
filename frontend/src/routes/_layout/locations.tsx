@@ -5,7 +5,6 @@ import {
   Heading,
   Table,
   VStack,
-  Text,
 } from "@chakra-ui/react"
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"

@@ -38,7 +38,6 @@ const AddLocation = () => {
   const items = itemsResponse?.data || []
   const {
     register,
-    control,
     handleSubmit,
     reset,
     formState: { errors, isValid, isSubmitting },
@@ -169,7 +168,7 @@ const AddLocation = () => {
               variant="solid"
               type="submit"
               disabled={!isValid}
-              isLoading={isSubmitting}
+              loading={isSubmitting}
             >
               Save
             </Button>
