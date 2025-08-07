@@ -33,6 +33,6 @@ RUN --mount=type=cache,id=uv-cache,target=/root/.cache/uv \
     uv sync
 
 # Create entrypoint script to run both commands
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x entrypoint.sh
 
-CMD ["/app/entrypoint.sh"]
+CMD ["entrypoint.sh"]
