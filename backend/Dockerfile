@@ -32,4 +32,7 @@ COPY ./app /app/app
 RUN --mount=type=cache,id=uv-cache,target=/root/.cache/uv \
     uv sync
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "4"]
+# Create entrypoint script to run both commands
+RUN chmod +x /app/entrypoint.sh
+
+CMD ["/app/entrypoint.sh"]
