@@ -34,7 +34,7 @@ RUN --mount=type=cache,id=uv-cache,target=/root/.cache/uv \
 
 # Create entrypoint script
 RUN echo '#!/bin/bash' > /app/entrypoint.sh && \
-    echo 'alembic upgrade head' >> /app/entrypoint.sh && \
+    echo 'bash scripts/prestart.sh' >> /app/entrypoint.sh && \
     echo 'exec uvicorn app.main:app --host 0.0.0.0 --port 8080 --workers 4' >> /app/entrypoint.sh && \
     chmod +x /app/entrypoint.sh
 
