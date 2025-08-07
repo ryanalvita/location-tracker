@@ -32,7 +32,10 @@ COPY ./app /app/app
 RUN --mount=type=cache,id=uv-cache,target=/root/.cache/uv \
     uv sync
 
-# Create entrypoint script to run both commands
-RUN chmod +x entrypoint.sh
+# Create entrypoint script
+RUN echo '#!/bin/bash' > /app/entrypoint.sh && \
+    echo 'alembic upgrade head' >> /app/entrypoint.sh && \
+    echo 'exec uvicorn app.main:app --host 0.0.0.0 --port 8080 --workers 4' >> /app/entrypoint.sh && \
+    chmod +x /app/entrypoint.sh
 
-CMD ["entrypoint.sh"]
+CMD ["/app/entrypoint.sh"]
